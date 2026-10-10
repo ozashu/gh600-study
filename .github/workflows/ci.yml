@@ -1,0 +1,23 @@
+name: GH-600 practice CI
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run unit test
+        run: python -m unittest discover -v
+
+  report:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Tests passed; record the run URL on the PR.'
